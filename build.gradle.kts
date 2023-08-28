@@ -1,6 +1,5 @@
 plugins {
     kotlin("jvm") version "1.9.10"
-    `maven-publish`
 }
 
 group = "org.example.detekt"
@@ -15,7 +14,7 @@ dependencies {
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(11)
 }
 
 tasks.withType<Test>().configureEach {
@@ -24,10 +23,3 @@ tasks.withType<Test>().configureEach {
     systemProperty("compile-snippet-tests", project.hasProperty("compile-test-snippets"))
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            from(components["java"])
-        }
-    }
-}

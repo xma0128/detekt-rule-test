@@ -12,6 +12,7 @@ class MyRuleSetProvider : RuleSetProvider {
             ruleSetId,
             listOf(
                 MyRule(config),
+                TestRule(config),
             ),
         )
     }

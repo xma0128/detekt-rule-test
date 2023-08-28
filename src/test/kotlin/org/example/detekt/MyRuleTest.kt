@@ -31,4 +31,31 @@ internal class MyRuleTest(private val env: KotlinCoreEnvironment) {
         val findings = MyRule(Config.empty).compileAndLintWithContext(env, code)
         findings shouldHaveSize 0
     }
+
+    @Test
+    fun `test rule`() {
+        val code = """
+            class DynamicValueController {
+              companion object {
+                // Cleanup: http://www.jira.com/issues/mxplat-1234
+                private const val AABCED = "AABCD"
+                // bbcde
+                private const val BBCDE = "BBCDE"
+              }
+            }
+        """
+        val findings = TestRule(Config.empty).compileAndLintWithContext(env, code)
+        findings shouldHaveSize 1
+
+        val code2 = """
+            class A {
+                private const val AABCED
+                companion object {
+                    private const val BBCDE = "BBCDE"
+                }
+            }
+        """
+        val findings2 = TestRule(Config.empty).compileAndLintWithContext(env, code2)
+        findings2 shouldHaveSize 0
+    }
 }
